@@ -1,3 +1,5 @@
+targetScope = 'resourceGroup'
+
 var webappName = uniqueString(resourceGroup().id)
 
 
