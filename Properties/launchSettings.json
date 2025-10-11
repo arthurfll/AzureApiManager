@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "cpf_validator": {
-      "commandName": "Project",
-      "commandLineArgs": "--port 7263",
-      "launchBrowser": false
-    }
-  }
-}
