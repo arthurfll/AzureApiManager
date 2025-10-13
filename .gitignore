@@ -5,3 +5,7 @@ bin
 Migrations
 
 dev.db
+prod.db
+
+ScaffoldingReadMe.txt
+
