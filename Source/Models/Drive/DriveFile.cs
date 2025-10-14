@@ -5,10 +5,18 @@ namespace Source.Models;
 public class DriveFile
 {
   [Key]
-  public Guid Id { get; set; }
+  public Guid Id { get; set; } = Guid.NewGuid();
+
+  [Required]
+  public Guid UserId { get; set; }
+
+  [Required]
+  public Guid FolderId { get; set; }
+  
   [Required]
   public string Name { get; set; } = "";
   [Required]
   public string FileUrl { get; set; } = "";
 }
+
 

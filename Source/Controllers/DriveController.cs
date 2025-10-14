@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Source.Models;
 using Source.Services;
 
 namespace Source.Controllers;
@@ -15,10 +16,16 @@ public class DriveController : Controller
   {
     return View();
   }
-
+  [HttpGet]
   public IActionResult Create()
   {
     return View();
+  }
+  [HttpPost]
+  public IActionResult Create(DriveFile obj)
+  {
+    _driveFileService.AddFile(obj);
+    return Redirect("/Drive");
   }
 }
 

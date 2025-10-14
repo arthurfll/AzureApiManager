@@ -79,7 +79,7 @@ public class BlobStorageService
     return null;
   }
 
-  public async Task UploadFile(
+  public async Task<string> UploadFile(
     string userId, string folderId, string fileId, BlobContainerClient client , IFormFile formFile
   )
   {
@@ -90,6 +90,8 @@ public class BlobStorageService
     await using Stream fileStream = formFile.OpenReadStream();
 
     await blobClient.UploadAsync(fileStream, overwrite: true);
+
+    return blobClient.Uri.ToString();
   }
 }
 
