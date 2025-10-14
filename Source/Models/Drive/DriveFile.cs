@@ -12,6 +12,7 @@ public class DriveFile
 
   [Required]
   public Guid FolderId { get; set; }
+  public DriveFolder? Folder { get; set; }
   
   [Required]
   public string Name { get; set; } = "";

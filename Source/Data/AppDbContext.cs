@@ -10,5 +10,6 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
   {
   }
   public DbSet<DriveFile> Files { get; set; }
+  public DbSet<DriveFolder> Folders { get; set; }
 }
 

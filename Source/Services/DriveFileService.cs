@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using Source.Models;
 using Source.Repositories;
 
@@ -14,10 +15,31 @@ public class DriveFileService
     _blobStorageService = blobStorageService;
   }
 
-  public void AddFile(DriveFile obj)
+  public async Task AddFile(DriveFileCreateDto obj)
   {
-//    string blobUri = _blobStorageService.UploadFile();
+    var blobUri = "";
+    var blobServiceClient = _blobStorageService.GetBlobServiceClient();
+
+    var containerName = await _blobStorageService.CreateContainerIfNotExistsAsync(blobServiceClient);
+    
+    Console.WriteLine($"{containerName}");
+    try
+    {
+      var client = _blobStorageService.GetBlobContainerClient(containerName);
+      
+      blobUri = await _blobStorageService.UploadFile(
+          userId: "user123",
+          folderId: "folder123",
+          fileId: Guid.NewGuid().ToString(),
+          client: client,
+          formFile: obj.File!
+      );
+    }
+    catch
+    { Console.WriteLine("erro"); }
+
+
+
+    Console.WriteLine($"Arquivo salvo em: {blobUri}");
   }
 }
-
-

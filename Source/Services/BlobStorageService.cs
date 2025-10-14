@@ -3,7 +3,7 @@ using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 
-namespace Source.Models;
+namespace Source.Services;
 
 public class BlobStorageCredentials
 {
@@ -14,7 +14,7 @@ public class BlobStorageCredentials
 
 public class BlobStorageService
 {
-  public static BlobServiceClient GetBlobServiceClient()
+  public BlobServiceClient GetBlobServiceClient()
   {
     var credentials = new BlobStorageCredentials();
 
@@ -28,7 +28,7 @@ public class BlobStorageService
 
     return blobServiceClient;
   }
-    public static BlobContainerClient GetBlobContainerClient(
+    public BlobContainerClient GetBlobContainerClient(
         string containerName)
     {
         var credentials = new BlobStorageCredentials();
@@ -51,33 +51,27 @@ public class BlobStorageService
 
         return blobContainerClient;
     }
-  public async Task<BlobContainerClient?> CreateContainerIfNotExistsAsync(BlobServiceClient client)
-  {
-    string containerName = "container-" + Guid.NewGuid();
+public async Task<string> CreateContainerIfNotExistsAsync(BlobServiceClient client)
+{
+    string containerName = "drive-files";
 
     try
     {
-      await foreach (BlobContainerItem containerItem in client.GetBlobContainersAsync())
-      {
-        Console.WriteLine("Já existe um container na storage account: {0}", containerItem.Name);
-      }
+        // Tenta obter o container
+        var containerClient = client.GetBlobContainerClient(containerName);
 
-      BlobContainerClient container = await client.CreateBlobContainerAsync(containerName);
-
-      if (await container.ExistsAsync())
-      {
-        Console.WriteLine("Created container {0}", container.Name);
-        return container;
-      }
+        // Cria apenas se não existir
+        await containerClient.CreateIfNotExistsAsync(PublicAccessType.None);
+     return containerName;
     }
     catch (RequestFailedException e)
     {
-      Console.WriteLine("HTTP error code {0}: {1}", e.Status, e.ErrorCode);
-      Console.WriteLine(e.Message);
+        Console.WriteLine($"HTTP error code {e.Status}: {e.ErrorCode}");
+        Console.WriteLine(e.Message);
+        throw;
     }
+}
 
-    return null;
-  }
 
   public async Task<string> UploadFile(
     string userId, string folderId, string fileId, BlobContainerClient client , IFormFile formFile
@@ -91,7 +85,11 @@ public class BlobStorageService
 
     await blobClient.UploadAsync(fileStream, overwrite: true);
 
+    Console.WriteLine("Objeto Salvo");
+
     return blobClient.Uri.ToString();
+
+
   }
 }
 

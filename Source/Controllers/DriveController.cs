@@ -22,10 +22,12 @@ public class DriveController : Controller
     return View();
   }
   [HttpPost]
-  public IActionResult Create(DriveFile obj)
+  public IActionResult Create(DriveFileCreateDto obj)
   {
+    Console.WriteLine($"Tamanho do arquivo: {obj.File.FileName.Length} bytes");
     _driveFileService.AddFile(obj);
     return Redirect("/Drive");
   }
 }
 
+  

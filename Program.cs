@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.AspNetCore.Identity;
 using Source.Repositories;
 using Source.Services;
+using Source.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddScoped<DriveFileRepository>();
 builder.Services.AddScoped<DriveFileService>();
-
+builder.Services.AddScoped<BlobStorageService>();
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -26,7 +27,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthentication();
