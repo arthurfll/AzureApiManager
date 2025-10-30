@@ -3,7 +3,7 @@ var location = resourceGroup().location
 
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2020-12-01' = {
-  name: 'app-plan-1'
+  name: 'plan-157904134vioaedu10'
   location: location
   sku: {
     name: 'F1'
@@ -13,7 +13,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2020-12-01' = {
 
 
 resource webApplication 'Microsoft.Web/sites@2021-01-15' = {
-  name: 'WebApp-1'
+  name: 'WebApp-157904134vioaedu10'
   location: location
   tags: {
     'hidden-related:${resourceGroup().id}/providers/Microsoft.Web/serverfarms/appServicePlan': 'Resource'
@@ -24,7 +24,7 @@ resource webApplication 'Microsoft.Web/sites@2021-01-15' = {
 }
 
 resource apiManagementInstance 'Microsoft.ApiManagement/service@2020-12-01' = {
-  name: 'apim-1'
+  name: 'apim-157904134vioaedu10'
   location: location
   sku:{
     capacity: 1
